@@ -1,5 +1,7 @@
 # evil-fcitx.el
-### Fcitx toggle helper for Emacs Evil-Mode
+**Fcitx toggle helper for Emacs Evil-Mode**
+
+## brief
 
 Vim-like modeling editing is awesome, it uses *states* to provide a large keystroke space(and save your pinky at the same time). However, the aproch is really unfriendly to non-English users who uses an IME, they have to toggle IME again and again when jumping from state to state.
 
@@ -18,3 +20,15 @@ The emacs way:
 (add-to-list 'load-path "path/to/evil-fcitx")
 (require 'evil-fcitx)
 ~~~
+
+## usage
+
+Just type around, evil-fcitx would be invoked as you enable IME in *insert-state*. Type *C-q*(or else in variable *back-to-default-state-key*) when you want to get rid of evil-fcitx.
+
+## TODOs
+
+The script would grow as using it. I wish it could be a Emacs front-end of Fcitx someday.
+
+* State record for every single buffer
+* Support search command in normal state. i.e."f 中", "t 文", "/ にほんご"
+//* Support user to jump between more than two languages.
