@@ -8,15 +8,15 @@
 (defvar back-to-default-state-key "C-q")
 (defvar user-IME-ID "2\n")
 
-(defvar IME-state
-  (concat (get-current-ime)
-		  "-state"))
-
 (defun get-current-IME ()
   (if (equal (shell-command-to-string "fcitx-remote")
 			 user-IME-ID)
 	  "user-IME"
 	"default-IME"))
+
+(defvar IME-state
+  (concat (get-current-IME)
+		  "-state"))
 
 (defun switch-to-default-IME ()
   (shell-command "fcitx-remote -c"))
@@ -29,6 +29,7 @@
   (if (equal (get-current-IME) "user-IME")
 	  (progn
 		(setq IME-state "user-IME-state")
+		(switch-to-default-IME)
 		; print-msg
 		(shell-command "echo \"IME state recorded\""))
 	(setq IME-state "default-IME-state")))
@@ -38,8 +39,7 @@
 
 (defun entry-insert-evil-fcitx ()
   "When entry insert with user-IME-state, switch back to user-IME"
-  (if (and (equal IME-state "user-IME-state")
-		   (equal (get-current-IME) "default-IME-state"))
+  (if (and (equal IME-state "user-IME-state"))
 	  (progn
 		(switch-to-user-IME)
 		; print-msg
@@ -51,8 +51,7 @@
 (defun back-to-default-state()
   (interactive)
   (setq IME-state (get-current-IME))
-  (if (or (equal IME-state user-IME)
-		  )
+  (if (equal IME-state "user-IME")
 	  (progn
 		(switch-to-default-IME)
 		(setq IME-state "default-IME-state")
