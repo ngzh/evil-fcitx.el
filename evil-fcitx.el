@@ -91,7 +91,7 @@
 	  (progn
 		(switch-to-default-IME)
 		(IME-state-setter "default-IME-state")
-		(evil-normal-state)
+		;(evil-normal-state)
 		(message "IME-state cleanred"))))
 
 (global-set-key (kbd back-to-default-state-key)

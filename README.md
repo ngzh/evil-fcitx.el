@@ -3,7 +3,7 @@
 
 ## Brief
 
-Vim-like modeling editing is awesome, it uses __states__ to provide a large keystroke space(and save your pinky at the same time). However, the aproch is really unfriendly to non-English users who uses an IME, they have to toggle IME again and again when jumping from state to state.
+Vim-like modeling editing is awesome, it uses __states__(like Normal, Insert... real vimmer call these stuff __mode__) to provide a large enough keystroke space(and save your pinky at the same time). However, the aproch is really unfriendly to non-English users who uses an IME, they have to toggle IME again and again when jumping from state to state.
 
 Using fcitx-remote to automatically toggle IME, evil-fcitx could be one more reason for non-English emacs users who uses fcitx IME to taste the power of modeling editing and save their pinky.
 
