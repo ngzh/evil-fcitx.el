@@ -45,15 +45,52 @@
   (update-IME-mode-line-tag state))
 
 (defun update-IME-mode-line-tag (IME-state)
-  (cond
-   ((equal state "default-IME-state")
-	(setq IME-state-mode-line-tag default-IME-state-indicator))
-   ((equal state "user-IME-state")
-	(setq IME-state-mode-line-tag user-IME-state-indicator))
-   (else
-	(print "error")))
-  (force-mode-line-update))
-  
+  "insert an IME-state mode line tag at some where related to the position of evil-mode-line-tag, if the evil-mode-line-format is 'before, it should be appear after the evil-mode-line-tag"
+  (when (listp mode-line-format)
+	; set the mode-line-tag first
+	(cond
+	 ((equal IME-state "default-IME-state")
+	  (setq IME-state-mode-line-tag default-IME-state-indicator))
+	 ((equal IME-state "user-IME-state")
+	  (setq IME-state-mode-line-tag user-IME-state-indicator))
+	 (else
+	  (print "error")))	
+	; then remove the tag itself
+	(setq mode-line-format
+		  (delq 'IME-state-mode-line-tag mode-line-format))
+	; just like the evil-refresh-mode-line
+	(let ((mlpos mode-line-format) 
+		  pred which where)
+	  ; the position is just opposite to evil-mode-line-tag
+	  (cond
+	   ((eq evil-mode-line-format 'after)
+		(setq where 'after which 'mode-line-position))
+	   ((eq evil-mode-line-format 'before)
+		(setq where 'after which 'evil-mode-line-tag))
+	   ; don't quite understand this condition
+	   ((consp evil-mode-line-format)
+        (setq where (car evil-mode-line-format)
+              which (cdr evil-mode-line-format))))
+	  (while (and mlpos
+				  ; some elem in the mode-line-format could be a list
+				  ; so the sym is defined like this
+				  (let ((sym (or (car-safe (car mlpos))
+								 (car mlpos))))
+					(not (eq which sym))))
+		; pred are the stuffs include and after the current sym
+		(setq pred mlpos
+			  mlpos (cdr mlpos)))
+	  (cond
+	   ((not mlpos))
+	   ((eq where 'before)
+		(if pred
+			(setcdr pred (cons 'IME-state-mode-line-tag mlpos))
+		  (setq mode-ine-format
+				(cons 'IME-state-mode-line-tag mode-line-format))))
+	   ((eq where 'after)
+		(setcdr mlpos (cons 'IME-state-mode-line-tag (cdr mlpos)))))
+	  (force-mode-line-update)))) 
+(update-IME-mode-line-tag "default-IME-state")
 
 (defun exit-insert-evil-fcitx ()
   "When exit insert with user-IME, remember it"
