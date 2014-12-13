@@ -35,13 +35,13 @@ P.S.Type __C-q__(or else in variable __back-to-default-state-key__) when you qui
 
 ### Mode-line tag:
 
-There is an automatically added mode-line-tag, right next to evil-mode-line-tag(<N> <I>) if you never touched the position of evil-mode-line-tag.
+There is an automatically added mode-line-tag, right next to evil-mode-line-tag(the <N> <I> stuff).
 
 ## TODOs
 
 The script would grow as using it. I wish it could be a Emacs front-end of Fcitx someday.
 
+* __DONE__ Adding a mode-line tag automatically
 * State record for every single buffer
-* Adding the mode-line indicator automatically(DONE)
 * Support search non-ASCII char/string in normal state. i.e."f 中", "t 文", "/ にほんご"
-..* Support more than two languages.
+..* Support more than two languages other than English.

@@ -45,7 +45,7 @@
   (update-IME-mode-line-tag state))
 
 (defun update-IME-mode-line-tag (IME-state)
-  "insert an IME-state mode line tag at some where related to the position of evil-mode-line-tag, if the evil-mode-line-format is 'before, it should be appear after the evil-mode-line-tag"
+  "set the IME-state-mode-line-tag right next to the evil-mode-line-tag"
   (when (listp mode-line-format)
 	; set the mode-line-tag first
 	(cond
@@ -60,34 +60,21 @@
 		  (delq 'IME-state-mode-line-tag mode-line-format))
 	; just like the evil-refresh-mode-line
 	(let ((mlpos mode-line-format) 
-		  pred which where)
-	  ; the position is just opposite to evil-mode-line-tag
-	  (cond
-	   ((eq evil-mode-line-format 'after)
-		(setq where 'after which 'mode-line-position))
-	   ((eq evil-mode-line-format 'before)
-		(setq where 'after which 'evil-mode-line-tag))
+		  pred)
+	  ; the position is right next to evil-mode-line-tag
 	   ; don't quite understand this condition
-	   ((consp evil-mode-line-format)
-        (setq where (car evil-mode-line-format)
-              which (cdr evil-mode-line-format))))
 	  (while (and mlpos
 				  ; some elem in the mode-line-format could be a list
 				  ; so the sym is defined like this
 				  (let ((sym (or (car-safe (car mlpos))
 								 (car mlpos))))
-					(not (eq which sym))))
+					(not (eq 'evil-mode-line-tag sym))))
 		; pred are the stuffs include and after the current sym
 		(setq pred mlpos
 			  mlpos (cdr mlpos)))
 	  (cond
 	   ((not mlpos))
-	   ((eq where 'before)
-		(if pred
-			(setcdr pred (cons 'IME-state-mode-line-tag mlpos))
-		  (setq mode-ine-format
-				(cons 'IME-state-mode-line-tag mode-line-format))))
-	   ((eq where 'after)
+	   ((not nil)
 		(setcdr mlpos (cons 'IME-state-mode-line-tag (cdr mlpos)))))
 	  (force-mode-line-update)))) 
 (update-IME-mode-line-tag "default-IME-state")
