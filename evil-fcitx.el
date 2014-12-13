@@ -40,8 +40,11 @@
   (shell-command "fcitx-remote -o"))
 
 (defun IME-state-setter (state)
-  "Set IME-state and update mode-line indicator"
+  "Set IME-state and update mode-line tag"
   (setq IME-state state)
+  (update-IME-mode-line-tag state))
+
+(defun update-IME-mode-line-tag (IME-state)
   (cond
    ((equal state "default-IME-state")
 	(setq IME-state-mode-line-tag default-IME-state-indicator))
@@ -50,9 +53,10 @@
    (else
 	(print "error")))
   (force-mode-line-update))
+  
 
 (defun exit-insert-evil-fcitx ()
-  "When exit insert with user-IME, set IME-state to user-IME-state"
+  "When exit insert with user-IME, remember it"
   (if (equal (get-current-IME) "user-IME")
 	  (progn
 		(IME-state-setter "user-IME-state")
@@ -64,7 +68,7 @@
 		  'exit-insert-evil-fcitx)
 
 (defun entry-insert-evil-fcitx ()
-  "When entry insert with user-IME-state, switch back to user-IME"
+  "When entry insert with user-IME-state, restore the user-IME"
   ; Do not show indicator in insert state
   ; Emacs cannot get IME-info in real time, 
   ; so it may be confusing when in insert state
