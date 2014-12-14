@@ -34,10 +34,13 @@
   (concat (get-current-IME) "-state"))
 
 (defun switch-to-default-IME ()
-  (shell-command "fcitx-remote -c"))
+  (shell-command "fcitx-remote -c")
+  (message "switch to user IME")
+  )
 
 (defun switch-to-user-IME ()
-  (shell-command "fcitx-remote -o"))
+  (shell-command "fcitx-remote -o")
+  (message "switch to default IME"))
 
 (defun IME-state-setter (state)
   "Set IME-state and update mode-line tag"
@@ -124,5 +127,11 @@
 
 (global-set-key (kbd back-to-default-state-key)
 				'back-to-default-state)
+
+; adding non-ascii argument for command in normal mode
+(defadvice evil-find-char (after change-to-user-IME-after-find-char
+								  (&optional count char))
+	  (switch-to-default-IME))
+(ad-activate 'evil-find-char)
 
 (provide 'evil-fcitx)
