@@ -35,8 +35,7 @@
 
 (defun switch-to-default-IME ()
   (shell-command "fcitx-remote -c")
-  (message "switch to user IME")
-  )
+  (message "switch to user IME"))
 
 (defun switch-to-user-IME ()
   (shell-command "fcitx-remote -o")
@@ -80,6 +79,8 @@
 	   ((not nil)
 		(setcdr mlpos (cons 'IME-state-mode-line-tag (cdr mlpos)))))
 	  (force-mode-line-update)))) 
+
+; init with defulat-IME-state
 (update-IME-mode-line-tag "default-IME-state")
 
 (defun exit-insert-evil-fcitx ()
@@ -96,8 +97,8 @@
 
 (defun entry-insert-evil-fcitx ()
   "When entry insert with user-IME-state, restore the user-IME"
-  ; Do not show indicator in insert state
-  ; Emacs cannot get IME-info in real time, 
+  ; Do not show mode-line-tag in insert state
+  ; Emacs cannot get IME info in real time, 
   ; so it may be confusing when in insert state
   (progn 
 	(setq IME-state-mode-line-tag "")
@@ -111,7 +112,7 @@
 (add-hook 'evil-insert-state-entry-hook
 		  'entry-insert-evil-fcitx)
 
-(defun back-to-default-state()
+(defun force-back-to-default-state()
   "Clear the IME-state and switch back to normal state"
   (interactive)
   ; This is quite ugly now, I may consider another way later
@@ -128,10 +129,31 @@
 (global-set-key (kbd back-to-default-state-key)
 				'back-to-default-state)
 
-; adding non-ascii argument for command in normal mode
+; switch back to default-IME-state after input some non-ascii chars
+; as argument of find-char(backward) search(backward) replace command
 (defadvice evil-find-char (after change-to-user-IME-after-find-char
 								  (&optional count char))
 	  (switch-to-default-IME))
 (ad-activate 'evil-find-char)
+
+(defadvice evil-find-char-backward (after change-to-user-IME-after-rfind-char
+										  (&optional count char))
+  (switch-to-default-IME))
+(ad-activate 'evil-find-char-backward)
+
+(defadvice evil-search-forward (after change-to-user-IME-state-after-search
+                                      ())
+  (switch-to-default-IME))
+(ad-activate 'evil-search-forward)
+
+(defadvice evil-search-backward (after change-to-user-IME-state-after-rsearch
+                                      ())
+  (switch-to-default-IME))
+(ad-activate 'evil-search-backward)
+
+(defadvice evil-replace (after change-to-user-IME-state-after-find-char
+							   (beg end &optional type char))
+  (switch-to-default-IME))
+(ad-activate 'evil-replace)
 
 (provide 'evil-fcitx)
