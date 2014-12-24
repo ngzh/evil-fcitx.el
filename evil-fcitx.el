@@ -9,7 +9,7 @@
 ;;;;;;;;;; User configs
 
 ; for me I don't use C-q quite often
-(defvar back-to-default-state-key "C-q")
+(defvar force-back-to-default-state-key "C-q")
 (defalias 'qu 'quote)
 
 ; Indicator to be displayed in mode-line, like <N>/<I> for Evil-mode
@@ -34,12 +34,14 @@
   (concat (get-current-IME) "-state"))
 
 (defun switch-to-default-IME ()
-  (shell-command "fcitx-remote -c")
-  (message "switch to user IME"))
+  (when (not (equal (get-current-IME) "default-IME"))
+	(shell-command "fcitx-remote -c")
+	(message "switch to default IME")))
 
 (defun switch-to-user-IME ()
-  (shell-command "fcitx-remote -o")
-  (message "switch to default IME"))
+  (when (not (equal (get-current-IME) "user-IME"))
+	(shell-command "fcitx-remote -o")
+	(message "switch to user IME")))
 
 (defun IME-state-setter (state)
   "Set IME-state and update mode-line tag"
@@ -126,8 +128,8 @@
 		;(evil-normal-state)
 		(message "IME-state cleanred"))))
 
-(global-set-key (kbd back-to-default-state-key)
-				'back-to-default-state)
+(global-set-key (kbd force-back-to-default-state-key)
+				'force-back-to-default-state)
 
 ; switch back to default-IME-state after input some non-ascii chars
 ; as argument of find-char(backward) search(backward) replace command
