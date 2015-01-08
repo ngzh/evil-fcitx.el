@@ -103,7 +103,7 @@
   ; Emacs cannot get IME info in real time, 
   ; so it may be confusing when in insert state
   (progn 
-	(setq IME-state-mode-line-tag "")
+	(setq IME-state-mode-line-tag "[--]")
 	(force-mode-line-update))
   (if (and (equal IME-state "user-IME-state"))
 	  (progn

@@ -3,9 +3,9 @@
 
 ## Brief
 
-Vim-like modeling editing is awesome, it uses __states__(like Normal, Insert... real vimmer call these stuff __mode__) to provide a large enough keystroke space(and save your pinky at the same time). However, the aproch is really unfriendly to non-English users who uses an IME, they have to toggle IME again and again when jumping from state to state.
+Vim-like modeling editing is awesome, it uses __states__/__mode__ to provide a large enough keystroke space(and save your pinky at the same time). However, the aproch is really unfriendly to non-English users who uses an IME, they have to toggle IME again and again when jumping from state to state.
 
-Using fcitx-remote to automatically toggle IME, evil-fcitx could be one more reason for non-English emacs users who uses fcitx IME to taste the power of modeling editing and save their pinky.
+Using fcitx-remote to automatically toggle IME, evil-fcitx could be one more reason for non-English emacs users who uses fcitx IME to taste the power of modeling editing.
 
 Inspired by fcitx.vim, but IME-state is global for now, which means you better back to evil-normal-state before jump to another buffer. To be improved later.
 
@@ -35,13 +35,26 @@ P.S.Type __C-q__(or else in variable __back-to-default-state-key__) when you qui
 
 ### Mode-line tag:
 
-There is an automatically added mode-line-tag, right next to evil-mode-line-tag(the <N> <I> stuff).
+There is an automatically added mode-line-tag, right next to evil-mode-line-tag(the <N> <I> stuff), by default are \[EN\] \[ZH\].
+Emacs can not get IME info in real time, so the mode line tag will just be like this: \[--\].
+
+### In Normal State/Mode
+
+Sometime there is a need to use __f/F__ __t/T__ __r__ __/ ?__ with a non-ascii char/word as argument. You can type:
+
+~~~
+f <Toggle IME>中
+t <Toggle IME>文
+/ <Toggle IME>にほんご
+~~~
+
+Fcitx would automatically back to English mode.
 
 ## TODOs
 
 The script would grow as using it. I wish it could be a Emacs front-end of Fcitx someday.
 
 * __DONE__ Adding a mode-line tag automatically
-* State record for every single buffer
-* Support search non-ASCII char/string in normal state. i.e."f 中", "t 文", "/ にほんご"
+* Fully support search non-ASCII char/string in normal state.
 ..* Support more than two languages other than English.
+* State record for every single buffer
