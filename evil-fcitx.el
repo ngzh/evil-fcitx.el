@@ -10,7 +10,8 @@
 
 ; for me I don't use C-q quite often
 (defvar force-back-to-default-state-key "C-q")
-(defalias 'qu 'quote)
+(unless (boundp 'qu)
+  (defalias 'qu 'quote))
 
 ; Indicator to be displayed in mode-line, like <N>/<I> for Evil-mode
 (defvar user-IME-state-indicator "[ZH]")
