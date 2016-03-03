@@ -3,9 +3,9 @@
 
 ## 安装
 
-需要: [evil-mode](https://www.emacswiki.org/emacs/Evil), Fcitx __fcitx-remote__ 命令行工具(一般在fcitx包里带了)
+需要: 1.[evil-mode](https://www.emacswiki.org/emacs/Evil), 2.Fcitx __fcitx-remote__ 命令行工具(一般在fcitx包里带了)
 
-fcitx-remote 测试方法
+首先确认 fcitx-remote 可用，测试方法
 
 ~~~bash
 $ fcitx-remote -o ## 会启动输入法
@@ -21,13 +21,17 @@ $ fcitx-remote -c ## 会关闭输入法
 
 ## 使用
 
-正常的打字就可以了。
+正常的打字就可以了。(以下GIF中的IME切换键为<s-SPC>)
+
+![Typical Usage](screencast/typical-usage.gif)
 
 * 在 <code>insert-mode</code> 时，可以通过 fcitx 预设的输入法切换按键(如<code>CTRL+SPC</code>)换输入法，若在中文状态下按 <ESC> ，__evil-fcitx__ 会将输入法切回英文并记录此时处于英文状态 (在 [mode-line](https://www.emacswiki.org/emacs/ModeLine) 里会有一个 __[ZH]__ 的标志)，下次进入 <code>insert-mode</code> 时 __evil-fcitx__ 会再切回中文输入法。
 
 * 在 <code>normal-mode</code> 时，可以按 <code>C-c C-q</code> 清除 __[ZH]__ 状态，这样下次进入 <code>insert-mode</code> 里就不会切回中文了。
 
 * 在 <code>normal-mode</code> 时，使用 __f/F__ __t/T__ __r__ __/ ?__ 也可以输入中文。例如按下 <code>f</code> 后可以切换成中文，输入一个字后输入法会回到中文。
+
+![Normal Mode Usage](screenshot/command-usage.gif)
 
 ~~~
 f <Toggle IME>中
