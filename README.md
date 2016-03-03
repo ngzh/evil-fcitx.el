@@ -31,7 +31,7 @@ $ fcitx-remote -c ## 会关闭输入法
 
 * 在 <code>normal-mode</code> 时，使用 __f/F__ __t/T__ __r__ __/ ?__ 也可以输入中文。例如按下 <code>f</code> 后可以切换成中文，输入一个字后输入法会回到中文。
 
-![Normal Mode Usage](screenshot/command-usage.gif)
+![Normal Mode Usage](screencast/command-usage.gif)
 
 ~~~
 f <Toggle IME>中
